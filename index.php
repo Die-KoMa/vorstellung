@@ -1,7 +1,7 @@
 <?php
 require_once("config.php");
 
-function mql_read_university($mid) {
+function mql_read_universities($mids) {
 	global $server_api_key;
 	$state_query = array(
 		'name' => null,
@@ -9,8 +9,9 @@ function mql_read_university($mid) {
 		'mid!=' => '/m/0345h', // Deutschland
 		'geolocation' => array('latitude' => null),
 	);
-	$query = array(
-		'mid' => $mid,
+	$query = array(array(
+		'mid|=' => $mids,
+		'mid' => null,
 		'type' => '/location/location',
 		'b:type' => '/education/university',
 		'name' => null,
@@ -27,14 +28,15 @@ function mql_read_university($mid) {
 		),
 		'a:containedby' => array_merge( // if the state is an immediate container of the university...
 			$state_query,
-			array('optional' => 'optional')
+			array('optional' => 'optional', 'limit' => 1)
 		),
 		'b:containedby' => array( // if there is an intermediate container...
 			'containedby' => $state_query,
 			'optional' => 'optional',
 			'type' => '/location/location',
+			'limit' => 1,
 		),
-	);
+	));
 	$args = array(
 		'lang' => '/lang/de',
 		'key' => $server_api_key,
@@ -53,7 +55,7 @@ function intcmp($a, $b) {
 	elseif($a < $b)
 		return -1;
 }
-
+$query = null;
 // Read data
 $fd = fopen($data_file, 'r');
 flock($fd, LOCK_SH);
@@ -67,21 +69,26 @@ $geolimits = array(
 	'longitude' => array('min' => 90, 'max' => -90),
 );
 $universities = array();
+$result = mql_read_universities(array_keys($data));
+$result = $result['result'];
+$by_mid = $manual_data;
+foreach($result as $entry) {
+	$by_mid[$entry['mid']] = $entry;
+}
+unset($result);
 foreach($data as $mid => $supplied) {
-	$info = mql_read_university($mid);
-	if(!isset($info['result']))
-		continue;
-	else
-		$info = $info['result'];
+	$info = $by_mid[$mid];
 	$universities[] = array_merge($supplied, array(
 		'name' => $info['name'],
 		'geolocation' => $info['geolocation'],
 		'state' => $info['a:containedby']? $info['a:containedby'] : $info['b:containedby']['containedby'],
 		'students' => $info['/education/educational_institution/total_enrollment'],
 	));
-	foreach($info['geolocation'] as $dir => $val) {
-		$geolimits[$dir]['max'] = max($geolimits[$dir]['max'], $val);
-		$geolimits[$dir]['min'] = min($geolimits[$dir]['min'], $val);
+	if(!empty($info['geolocation'])) {
+		foreach($info['geolocation'] as $dir => $val) {
+			$geolimits[$dir]['max'] = max($geolimits[$dir]['max'], $val);
+			$geolimits[$dir]['min'] = min($geolimits[$dir]['min'], $val);
+		}
 	}
 }
 

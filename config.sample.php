@@ -16,3 +16,22 @@ $browser_api_key = '';
 $server_api_key = '';
 
 $data_file = 'data.json';
+
+$manual_data = array("/m/0df2pf" => array(
+			"name" => "Technische Universität Kaiserslautern",
+			"a:containedby" => array(
+				"name" => "Rheinland-Pfalz",
+				"geolocation" => array(
+					"latitude" => 49.913056
+				),
+			),
+			"geolocation" => array(
+				"latitude" => 49.444722,
+				"longitude" => 7.768889,
+			),
+			"/education/educational_institution/total_enrollment" => array(
+				"number" => 12510,
+				"year" => 2010,
+			),
+			"mid" => "/m/0df2pf",
+		));
