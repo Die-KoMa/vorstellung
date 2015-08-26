@@ -1,0 +1,3 @@
+[submodule "assets/fathom"]
+	path = assets/fathom
+	url = https://github.com/markdalgleish/fathom.git

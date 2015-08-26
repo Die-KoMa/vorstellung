@@ -154,7 +154,7 @@ foreach($universities as $id => $university):
 </div>
 <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="https://raw.githubusercontent.com/markdalgleish/fathom/master/fathom.min.js"></script>
+<script src="assets/fathom/fathom.min.js"></script>
 <script>
 var geolimits = [
 	[<?php echo $geolimits['longitude']['min'] . ',' . $geolimits['latitude']['max']; ?>],
