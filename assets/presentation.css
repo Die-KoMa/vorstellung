@@ -7,7 +7,7 @@ body {
     position: absolute;
     left: 0;
     top: 0;
-    width: 30%;
+    width: 40%;
     height: 100%;
     background: white;
     font-size: 0;
@@ -17,7 +17,7 @@ body {
     position: absolute;
     right: 0;
     top: 0;
-    width: 70%;
+    width: 60%;
     overflow: hidden;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -26,8 +26,9 @@ body {
 }
 div.slide {
     height: 100vh;
-    width: 70vw;
+    width: 60vw;
     text-align: center;
+    position: relative;
 }
 dt, dd {
     width: 45%;
@@ -57,4 +58,10 @@ dd, ul, ol {
 }
 .column h3 {
     text-align: left;
+}
+.next {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    font-size: 80%;
 }

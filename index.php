@@ -110,7 +110,7 @@ usort($universities, function($a, $b) {
     <h2><?php echo $eventname; ?> Anfangsplenum</h2>
 </div>-->
 <?php
-foreach($universities as $university):
+foreach($universities as $id => $university):
 ?>
 <div class="slide" data-geo="<?php $loc = $university['geolocation']; echo $loc['latitude'].' '.$loc['longitude']; ?>">
     <h2><?php echo $university['name']; ?></h2>
@@ -137,6 +137,11 @@ foreach($universities as $university):
         </ul>
     </div>
 <?php endforeach; ?>
+<?php if($id < count($universities) - 1): ?>
+    <div class="next">
+        Nächste: <?php echo $universities[$id+1]['name']; ?>
+    </div>
+<?php endif; ?>
 </div>
 <?php endforeach; ?>
 </div>
