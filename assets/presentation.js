@@ -24,7 +24,7 @@ function fromEPSG4326(lon, lat) {
 map = new OpenLayers.Map("map", {controls: [new OpenLayers.Control.Attribution()]});
 map.addLayer(new OpenLayers.Layer.TMS(
     "OSM Admin Boundaries (experimental)",
-    "http://openmapsurfer.uni-hd.de/tiles/adminb/",
+    "http://korona.geog.uni-heidelberg.de/tiles/adminb/",
     {
         type: 'png', getURL: getTileURL,
         displayOutsideMaxExtent: true,
